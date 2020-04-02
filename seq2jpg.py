@@ -7,7 +7,7 @@ def open_save(file,savepath):
     # 读入一个seq文件，然后拆分成image存入savepath当中       
     f = open(file,'rb')  
     #将seq文件的内容转化成str类型
-    string = str(f.read())
+    string = str(f.read().decode('latin-1'))
 
     #splitstring是图片的前缀，可以理解成seq是以splitstring为分隔的多个jpg合成的文件
     splitstring = "\xFF\xD8\xFF\xE0\x00\x10\x4A\x46\x49\x46"  
@@ -34,13 +34,13 @@ def open_save(file,savepath):
         filenamewithpath=os.path.join(savepath, filename)        
         if count > 0:                                    
             i=open(filenamewithpath,'wb+')  
-            i.write(splitstring)  
-            i.write(img) 
+            i.write(splitstring.encode('latin-1'))
+            i.write(img.encode('latin-1'))
             i.close()              
         count = count + 1 
 if __name__=="__main__":  
-    rootdir = "/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech"  
-    saveroot = "/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech/JPEG"
+    rootdir = "D:/BaiduYunDownload/CaltechPestrain2VOC/set10"  
+    saveroot = "D:/BaiduYunDownload/CaltechPestrain2VOC/jpg"
 
     for parent, dirnames, filenames in os.walk(rootdir):  
         for filename in filenames:                    

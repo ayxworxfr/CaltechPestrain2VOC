@@ -5,12 +5,12 @@ from scipy.io import loadmat
 from collections import defaultdict
 import numpy as np
 from lxml import etree, objectify
-
+ 
 def vbb_anno2dict(vbb_file, cam_id):
     #通过os.path.basename获得路径的最后部分“文件名.扩展名”
     #通过os.path.splitext获得文件名
     filename = os.path.splitext(os.path.basename(vbb_file))[0]
-
+ 
     #定义字典对象annos
     annos = defaultdict(dict)
     vbb = loadmat(vbb_file)
@@ -37,8 +37,8 @@ def vbb_anno2dict(vbb_file, cam_id):
                 del annos[frame_name]
     print (annos)
     return annos
-
-
+ 
+ 
 def seq2img(annos, seq_file, outdir, cam_id):
     cap = cv2.VideoCapture(seq_file)
     index = 1
@@ -63,8 +63,8 @@ def seq2img(annos, seq_file, outdir, cam_id):
         index += 1
     img_size = (width, height)
     return img_size
-
-
+ 
+ 
 def instance2xml_base(anno, bbox_type='xyxy'):
     """bbox_type: xyxy (xmin, ymin, xmax, ymax); xywh (xmin, ymin, width, height)"""
     assert bbox_type in ['xyxy', 'xywh']
@@ -108,15 +108,15 @@ def instance2xml_base(anno, bbox_type='xyxy'):
             )
         )
     return anno_tree
-
-
+ 
+ 
 def parse_anno_file(vbb_inputdir,vbb_outputdir):
     # annotation sub-directories in hda annotation input directory
     assert os.path.exists(vbb_inputdir)
     sub_dirs = os.listdir(vbb_inputdir)     #对应set00,set01...
     for sub_dir in sub_dirs:
         print ("Parsing annotations of camera: ", sub_dir)
-        cam_id = sub_dir
+        cam_id = sub_dir #set00 set01等
         #获取某一个子set下面的所有vbb文件
         vbb_files = glob.glob(os.path.join(vbb_inputdir, sub_dir, "*.vbb")) 
         for vbb_file in vbb_files:
@@ -130,7 +130,7 @@ def parse_anno_file(vbb_inputdir,vbb_outputdir):
                 #如果不存在
                 if not os.path.exists(vbb_outdir):
                     os.makedirs(vbb_outdir)
-
+ 
                 for filename, anno in sorted(annos.items(), key=lambda x: x[0]):                  
                     if "bbox" in anno:
                         anno_tree = instance2xml_base(anno)
@@ -155,22 +155,23 @@ def visualize_bbox(xml_file, img_file):
     cv2.imshow("test", image)
     cv2.imshow('origin',origin)
     cv2.waitKey(0)
-
-
+ 
+ 
 def main():
-    vbb_inputdir = "/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech/data/annotations/"
-    vbb_outputdir = "/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech/Annotations/"
+    vbb_inputdir = "D:/BaiduYunDownload/CaltechPestrain2VOC/annotations/"
+    vbb_outputdir = "D:/BaiduYunDownload/CaltechPestrain2VOC/xml/"
     parse_anno_file(vbb_inputdir,vbb_outputdir)
     
-
+ 
     """
     下面这段是测试代码
     """
-
+ 
     """
-    xml_file = "/Users/chenguanghao/Desktop/Caltech/xmlresult/set07/bbox/set07_V000_4.xml"
-    img_file = "/Users/chenguanghao/Desktop/Caltech/JPEG/set07/V000/4.jpg"
+    xml_file = "F:/Caltech/Caltech_VOC/xmlresult/set00_V000_526.xml"
+    img_file = "F:/Caltech/Caltech_VOC/JPEG/set00/V000/526.jpg"
     visualize_bbox(xml_file, img_file)
     """
+ 
 if __name__ == "__main__":
     main()

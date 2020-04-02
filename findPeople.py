@@ -3,8 +3,8 @@ import os
 import re
 
 if __name__ == "__main__":
-    xmlin = '/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech/Annotations'
-    xmlout = '/home/user2/chen_guang_hao/PeDetect/smallcorgi/Faster-RCNN_TF-master/data/VOCdevkit2007/Caltech/Annotations2'
+    xmlin = 'D:/BaiduYunDownload/CaltechPestrain2VOC/xml'
+    xmlout = 'D:/BaiduYunDownload/CaltechPestrain2VOC/newxml'
     files = os.listdir(xmlin)
     #编译一个pattern
     pattern = re.compile('people')
@@ -20,6 +20,6 @@ if __name__ == "__main__":
             updateFile = content
         with open(os.path.join(xmlout,file), 'w') as fout:
             fout.write(updateFile)
-        print 'updating file {}'.format(file)
+        print ('updating file {}'.format(file))
 
 
