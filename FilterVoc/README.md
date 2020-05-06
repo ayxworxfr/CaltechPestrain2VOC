@@ -1,4 +1,4 @@
-# FilterImage
+# FilterVOC
 
 对VOC数据集里面的xml和image按类别进行筛选，只保留指定的几个类别，如果部分图片没有指定类别，则去除对应的xml文件和图片，修改filt_voc_class.py文件里面的**CLASSES**为你需要的类别，再双击FilterVoc文件夹里面的filt_voc_class.bat脚本即可，out文件夹里面的是筛选后的xml文件和图片
 
