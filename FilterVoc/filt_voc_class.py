@@ -18,9 +18,9 @@ if not os.path.exists(out_image):
 CLASSES = ["person"]
 for xml_path in path_xml:
     xml_list = os.listdir(xml_path)
-flag = False
 print('开始筛选...')
 for item in xml_list:
+    flag = False
     path_xml = os.path.join(xml_path, item)
     tree = ET.parse(path_xml)
     root = tree.getroot()
